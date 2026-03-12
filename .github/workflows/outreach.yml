@@ -1,0 +1,39 @@
+name: Email Outreach Autopilot
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # Every 30 minutes, 24/7
+  workflow_dispatch:          # Manual trigger from GitHub UI
+
+jobs:
+  send-emails:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run outreach batch
+        run: node main.js --now
+        env:
+          HUNTER_API_KEY:  ${{ secrets.HUNTER_API_KEY }}
+          APIFY_API_KEY:   ${{ secrets.APIFY_API_KEY }}
+          GMAIL_USER:      ${{ secrets.GMAIL_USER }}
+          GMAIL_PASSWORD:  ${{ secrets.GMAIL_PASSWORD }}
+
+      - name: Save database back to repo
+        run: |
+          git config user.name  "Outreach Bot"
+          git config user.email "bot@outreach.local"
+          git add outreach.db
+          git diff --staged --quiet || git commit -m "chore: update outreach database [skip ci]"
+          git push
