@@ -191,9 +191,15 @@ async function findEmailByDomain(domain) {
       timeout: 15000,
     });
     const emails = (resp.data.data || {}).emails || [];
-    const founder = emails.find(e =>
+
+    // Only use emails with confidence score ≥ 70 to keep bounce rate low
+    const verified = emails.filter(e => (e.confidence || 0) >= 70);
+    const pool     = verified.length > 0 ? verified : [];
+
+    const founder = pool.find(e =>
       FOUNDER_KEYWORDS.some(k => (e.position || "").toLowerCase().includes(k))
-    ) || emails[0];
+    ) || pool[0];
+
     if (!founder) return null;
     return {
       email:     founder.value,

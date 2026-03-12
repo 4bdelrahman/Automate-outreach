@@ -72,8 +72,10 @@ async function sendBatch(limit) {
       console.log(`[FAILED] ${lead.email}: ${err.message}`);
     }
 
-    // Small delay between sends to avoid spam triggers
-    await sleep(3000);
+    // Random delay 45–90 seconds between sends — looks human, avoids spam flags
+    const delay = 45000 + Math.floor(Math.random() * 45000);
+    console.log(`[SENDER] Waiting ${Math.round(delay/1000)}s before next email…`);
+    await sleep(delay);
   }
 
   console.log(`\n[SENDER] Done. ${sentCount}/${realLeads.length} emails sent.`);
