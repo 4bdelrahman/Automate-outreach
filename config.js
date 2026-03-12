@@ -13,7 +13,8 @@ const GMAIL_PASSWORD = process.env.GMAIL_PASSWORD;
 const SENDER_NAME = "Abdelrahman Shehata";
 
 // ─── SCHEDULE ─────────────────────────────────────────────────────────────────
-const EMAILS_PER_BATCH = 3;
+// 7 runs/day × 5 emails = exactly 35 emails/day
+const EMAILS_PER_BATCH = 5;
 
 // ─── EMAIL TEMPLATE ───────────────────────────────────────────────────────────
 const EMAIL_SUBJECT = (company) =>

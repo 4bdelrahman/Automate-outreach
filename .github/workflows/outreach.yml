@@ -2,8 +2,14 @@ name: Email Outreach Autopilot
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # Every 30 minutes, 24/7
-  workflow_dispatch:          # Manual trigger from GitHub UI
+    # Runs 7 times per day × 5 emails = exactly 35 emails/day
+    # 8am, 10am, 12pm, 2pm, 4pm, 6pm, 8pm (UTC)
+    - cron: "0 8,10,12,14,16,18,20 * * *"
+  workflow_dispatch: # Manual trigger from GitHub UI
+
+# Grant write access so the bot can save the database back to the repo
+permissions:
+  contents: write
 
 jobs:
   send-emails:
@@ -25,10 +31,10 @@ jobs:
       - name: Run outreach batch
         run: node main.js --now
         env:
-          HUNTER_API_KEY:  ${{ secrets.HUNTER_API_KEY }}
-          APIFY_API_KEY:   ${{ secrets.APIFY_API_KEY }}
-          GMAIL_USER:      ${{ secrets.GMAIL_USER }}
-          GMAIL_PASSWORD:  ${{ secrets.GMAIL_PASSWORD }}
+          HUNTER_API_KEY: ${{ secrets.HUNTER_API_KEY }}
+          APIFY_API_KEY:  ${{ secrets.APIFY_API_KEY }}
+          GMAIL_USER:     ${{ secrets.GMAIL_USER }}
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
 
       - name: Save database back to repo
         run: |
