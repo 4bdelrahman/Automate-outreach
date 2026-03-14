@@ -26,3 +26,5 @@ john@getshogun.com
 russell@tropicapp.io
 toddr@openmetal.io
 mbertoni@phillytech.co
+morgan@amperon.co
+shannon@quantumtalent.io
