@@ -59,3 +59,4 @@ chris@biobuzz.io
 eric@levelingup.com
 aaron@aaronzakowski.com
 john@x.com
+kenny@mentorpass.co
