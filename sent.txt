@@ -62,3 +62,4 @@ john@x.com
 kenny@mentorpass.co
 ton.dobbe@valueinspiration.com
 claire.george@aha.io
+guillermo.falco@gohub.vc
